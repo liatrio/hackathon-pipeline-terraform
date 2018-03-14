@@ -4,6 +4,7 @@
 
 variable "aws_key_pair" {}
 variable "tool_name"    {}
+variable "zone_id"      {}
 
 resource "aws_instance" "jenkins_master" {
   ami               = "ami-4bf3d731"
@@ -16,12 +17,8 @@ resource "aws_instance" "jenkins_master" {
   }
 }
 
-data "aws_route53_zone" "domain" {
-  name = "fastfeedback.rocks"
-}
-
 resource "aws_route53_record" "jenkins" {
-  zone_id           = "${data.aws_route53_zone.domain.zone_id}"
+  zone_id           = "${var.zone_id}"
   name              = "jenkins.fastfeedback.rocks"
   type              = "A"
   ttl               = 300
