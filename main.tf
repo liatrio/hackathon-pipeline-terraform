@@ -38,3 +38,10 @@ module "jenkins_agents" {
   aws_key_pair  = "${var.aws_key_pair}"
   tool_name     = "jenkins_agent"
 }
+
+module "jira" {
+  source        = "./modules/jira"
+  aws_key_pair  = "${var.aws_key_pair}"
+  tool_name     = "jira"
+  zone_id      = "${data.aws_route53_zone.domain.zone_id}"
+}
