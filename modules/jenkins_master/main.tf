@@ -15,3 +15,15 @@ resource "aws_instance" "jenkins_master" {
     Name    = "${var.tool_name}_hackathon"
   }
 }
+
+data "aws_route53_zone" "domain" {
+  name = "fastfeedback.rocks"
+}
+
+resource "aws_route53_record" "jenkins" {
+  zone_id           = "${data.aws_route53_zone.domain.zone_id}"
+  name              = "jenkins.fastfeedback.rocks"
+  type              = "A"
+  ttl               = 300
+  records           = ["${aws_instance.jenkins_master.private_ip}"]
+}
