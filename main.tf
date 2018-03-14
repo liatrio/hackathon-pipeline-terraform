@@ -23,3 +23,9 @@ module "jenkins_master" {
   aws_key_pair  = "${var.aws_key_pair}"
   tool_name     = "jenkins_master"
 }
+
+module "jenkins_agents" {
+  source        = "./modules/jenkins_agents"
+  aws_key_pair  = "${var.aws_key_pair}"
+  tool_name     = "jenkins_agent"
+}
