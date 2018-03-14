@@ -4,7 +4,9 @@
 
 variable "aws_key_pair" {}
 variable "tool_name"    {}
-variable "agent_count"    { default = 2 }
+variable "agent_count" { 
+  default = 2 
+}
 
 resource "aws_instance" "jenkins_agent" {
   ami               = "ami-4bf3d731"
