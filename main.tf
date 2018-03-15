@@ -57,4 +57,5 @@ module "confluence" {
   source       = "./modules/confluence"
   aws_key_pair = "${var.aws_key_pair}"
   tool_name    = "confluence"
+  zone_id      = "${data.aws_route53_zone.domain.zone_id}"
 }
