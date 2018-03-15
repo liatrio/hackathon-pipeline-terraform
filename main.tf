@@ -52,3 +52,10 @@ module "jira" {
   tool_name     = "jira"
   zone_id      = "${data.aws_route53_zone.domain.zone_id}"
 }
+
+module "sonarqube" {
+  source        = "./modules/sonarqube"
+  aws_key_pair  = "${var.aws_key_pair}"
+  tool_name     = "sonarqube"
+  zone_id       = "${data.aws_route53_zone.domain.zone_id}"
+}
