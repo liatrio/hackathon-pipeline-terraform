@@ -9,7 +9,7 @@ variable "agent_count" {
 }
 
 resource "aws_instance" "jenkins_agent" {
-  ami               = "ami-4bf3d731"
+  ami               = "ami-1853ac65"
   instance_type     = "t2.large"
   key_name          = "${var.aws_key_pair}"
   count             = "${var.agent_count}"
