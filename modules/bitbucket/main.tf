@@ -9,7 +9,7 @@ variable "ssh_sg" {}
 
 resource "aws_instance" "bitbucket" {
   ami             = "ami-1853ac65"
-  instance_type   = "t5.large"
+  instance_type   = "m5.large"
   key_name        = "${var.aws_key_pair}"
   security_groups = ["${var.ssh_sg}"]
 
