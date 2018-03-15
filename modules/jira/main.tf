@@ -6,7 +6,7 @@ variable "aws_key_pair" {}
 variable "tool_name"    {}
 variable "zone_id"      {}
 
-resource "aws_instance" "jenkins_master" {
+resource "aws_instance" "jira" {
   ami               = "ami-1853ac65"
   instance_type     = "m5.large"
   key_name          = "${var.aws_key_pair}"
@@ -22,10 +22,10 @@ resource "aws_instance" "jenkins_master" {
   }
 }
 
-resource "aws_route53_record" "jenkins" {
+resource "aws_route53_record" "jira" {
   zone_id           = "${var.zone_id}"
-  name              = "jenkins.fastfeedback.rocks"
+  name              = "jira.fastfeedback.rocks"
   type              = "A"
   ttl               = 300
-  records           = ["${aws_instance.jenkins_master.private_ip}"]
+  records           = ["${aws_instance.jira.private_ip}"]
 }

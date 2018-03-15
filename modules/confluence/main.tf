@@ -7,7 +7,7 @@ variable "tool_name"    {}
 variable "zone_id"      {}
 
 resource "aws_instance" "confluence" {
-  ami               = "ami-4bf3d731"
+  ami               = "ami-1853ac65"
   instance_type     = "t2.large"
   key_name          = "${var.aws_key_pair}"
 
@@ -24,7 +24,7 @@ resource "aws_instance" "confluence" {
 
 resource "aws_route53_record" "confluence" {
   zone_id           = "${var.zone_id}"
-  name              = "tool_name.fastfeedback.rocks"
+  name              = "confluence.fastfeedback.rocks"
   type              = "A"
   ttl               = 300
   records           = ["${aws_instance.confluence.private_ip}"]
