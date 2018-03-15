@@ -66,3 +66,10 @@ module "sonarqube" {
   tool_name     = "sonarqube"
   zone_id       = "${data.aws_route53_zone.domain.zone_id}"
 }
+
+module "artifactory" {
+  source        = "./modules/artifactory"
+  aws_key_pair  = "${var.aws_key_pair}"
+  tool_name     = "artifactory"
+  zone_id       = "${data.aws_route53_zone.domain.zone_id}"
+}
