@@ -7,7 +7,7 @@ variable "tool_name"    {}
 variable "zone_id"      {}
 
 resource "aws_instance" "jira" {
-  ami               = "ami-4bf3d731"
+  ami               = "ami-1853ac65"
   instance_type     = "m5.large"
   key_name          = "${var.aws_key_pair}"
 
