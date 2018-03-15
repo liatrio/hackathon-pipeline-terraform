@@ -56,14 +56,14 @@ module "jenkins_master" {
   aws_key_pair = "${var.aws_key_pair}"
   tool_name    = "jenkins_master"
   zone_id      = "${data.aws_route53_zone.domain.zone_id}"
-  ssh_sg       = "${aws_security_group.ssh_sg.id}"
+  ssh_sg       = "${aws_security_group.ssh_sg.name}"
 }
 
 module "jenkins_agents" {
   source       = "./modules/jenkins_agents"
   aws_key_pair = "${var.aws_key_pair}"
   tool_name    = "jenkins_agent"
-  ssh_sg       = "${aws_security_group.ssh_sg.id}"
+  ssh_sg       = "${aws_security_group.ssh_sg.name}"
 }
 
 module "bitbucket" {
@@ -71,7 +71,7 @@ module "bitbucket" {
   aws_key_pair = "${var.aws_key_pair}"
   tool_name    = "bitbucket"
   zone_id      = "${data.aws_route53_zone.domain.zone_id}"
-  ssh_sg       = "${aws_security_group.ssh_sg.id}"
+  ssh_sg       = "${aws_security_group.ssh_sg.name}"
 }
 
 module "jira" {
@@ -79,7 +79,7 @@ module "jira" {
   aws_key_pair = "${var.aws_key_pair}"
   tool_name    = "jira"
   zone_id      = "${data.aws_route53_zone.domain.zone_id}"
-  ssh_sg       = "${aws_security_group.ssh_sg.id}"
+  ssh_sg       = "${aws_security_group.ssh_sg.name}"
 }
 
 module "confluence" {
@@ -87,7 +87,7 @@ module "confluence" {
   aws_key_pair = "${var.aws_key_pair}"
   tool_name    = "confluence"
   zone_id      = "${data.aws_route53_zone.domain.zone_id}"
-  ssh_sg       = "${aws_security_group.ssh_sg.id}"
+  ssh_sg       = "${aws_security_group.ssh_sg.name}"
 }
 
 module "sonarqube" {
@@ -95,7 +95,7 @@ module "sonarqube" {
   aws_key_pair = "${var.aws_key_pair}"
   tool_name    = "sonarqube"
   zone_id      = "${data.aws_route53_zone.domain.zone_id}"
-  ssh_sg       = "${aws_security_group.ssh_sg.id}"
+  ssh_sg       = "${aws_security_group.ssh_sg.name}"
 }
 
 module "artifactory" {
@@ -103,5 +103,5 @@ module "artifactory" {
   aws_key_pair = "${var.aws_key_pair}"
   tool_name    = "artifactory"
   zone_id      = "${data.aws_route53_zone.domain.zone_id}"
-  ssh_sg       = "${aws_security_group.ssh_sg.id}"
+  ssh_sg       = "${aws_security_group.ssh_sg.name}"
 }
