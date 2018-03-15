@@ -8,7 +8,7 @@ variable "zone_id"      {}
 
 resource "aws_instance" "bitbucket" {
   ami               = "ami-1853ac65"
-  instance_type     = "t5.large"
+  instance_type     = "m5.large"
   key_name          = "${var.aws_key_pair}"
 
   root_block_device {
