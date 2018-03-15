@@ -39,6 +39,13 @@ module "jenkins_agents" {
   tool_name     = "jenkins_agent"
 }
 
+module "bitbucket" {
+  source        = "./modules/bitbucket"
+  aws_key_pair  = "${var.aws_key_pair}"
+  tool_name     = "bitbucket"
+  zone_id       = "${data.aws_route53_zone.domain.zone_id}"
+}
+
 module "jira" {
   source        = "./modules/jira"
   aws_key_pair  = "${var.aws_key_pair}"
