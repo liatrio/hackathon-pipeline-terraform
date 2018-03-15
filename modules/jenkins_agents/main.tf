@@ -3,16 +3,19 @@
 #
 
 variable "aws_key_pair" {}
-variable "tool_name"    {}
-variable "agent_count" { 
-  default = 2 
+variable "tool_name" {}
+variable "ssh_sg" {}
+
+variable "agent_count" {
+  default = 2
 }
 
 resource "aws_instance" "jenkins_agent" {
-  ami               = "ami-1853ac65"
-  instance_type     = "t2.large"
-  key_name          = "${var.aws_key_pair}"
-  count             = "${var.agent_count}"
+  ami             = "ami-1853ac65"
+  instance_type   = "t2.large"
+  key_name        = "${var.aws_key_pair}"
+  count           = "${var.agent_count}"
+  security_groups = ["${var.ssh_sg}"]
 
   root_block_device {
     volume_type = "gp2"
@@ -24,4 +27,3 @@ resource "aws_instance" "jenkins_agent" {
     Name    = "${var.tool_name}_hackathon"
   }
 }
-
