@@ -7,8 +7,8 @@ variable "tool_name"    {}
 variable "zone_id"      {}
 
 resource "aws_instance" "bitbucket" {
-  ami               = "ami-4bf3d731"
-  instance_type     = "t2.micro"
+  ami               = "ami-1853ac65"
+  instance_type     = "t5.large"
   key_name          = "${var.aws_key_pair}"
 
   root_block_device {
