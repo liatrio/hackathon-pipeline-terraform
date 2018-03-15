@@ -17,6 +17,10 @@ resource "null_resource" "run_base_playbook" {
     inline = [
       "sudo yum update -y",
       "sudo yum install -y epel-release ansible git httpd-tools java-1.8.0-openjdk-headless",
+      "git clone https://github.com/ansible/ansible.git",
+      "cd ./ansible",
+      "make rpm",
+      "sudo rpm -Uvh ./rpm-build/ansible-*.noarch.rpm",
       "ansible-galaxy install geerlingguy.jenkins"
     ]
   }
