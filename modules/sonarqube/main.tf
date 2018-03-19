@@ -29,5 +29,5 @@ resource "aws_route53_record" "sonarqube" {
   name    = "sonarqube.fastfeedback.rocks"
   type    = "A"
   ttl     = 300
-  records = ["${aws_instance.sonarqube.private_ip}"]
+  records = ["${aws_instance.sonarqube.public_ip}"]
 }

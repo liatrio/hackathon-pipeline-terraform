@@ -29,5 +29,5 @@ resource "aws_route53_record" "bitbucket" {
   name    = "bitbucket.fastfeedback.rocks"
   type    = "A"
   ttl     = 300
-  records = ["${aws_instance.bitbucket.private_ip}"]
+  records = ["${aws_instance.bitbucket.public_ip}"]
 }

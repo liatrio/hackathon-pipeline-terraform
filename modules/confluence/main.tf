@@ -29,5 +29,5 @@ resource "aws_route53_record" "confluence" {
   name    = "confluence.fastfeedback.rocks"
   type    = "A"
   ttl     = 300
-  records = ["${aws_instance.confluence.private_ip}"]
+  records = ["${aws_instance.confluence.public_ip}"]
 }

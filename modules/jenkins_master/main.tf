@@ -29,5 +29,5 @@ resource "aws_route53_record" "jenkins" {
   name    = "jenkins.fastfeedback.rocks"
   type    = "A"
   ttl     = 300
-  records = ["${aws_instance.jenkins_master.private_ip}"]
+  records = ["${aws_instance.jenkins_master.public_ip}"]
 }
