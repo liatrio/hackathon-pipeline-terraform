@@ -29,5 +29,5 @@ resource "aws_route53_record" "artifactory" {
   name    = "artifactory.fastfeedback.rocks"
   type    = "A"
   ttl     = 300
-  records = ["${aws_instance.artifactory.private_ip}"]
+  records = ["${aws_instance.artifactory.public_ip}"]
 }
