@@ -1,27 +1,22 @@
-
 # Runs ansible playbook and configured Jenkins.
 #
 
 resource "null_resource" "run_base_playbook" {
-
   depends_on = ["aws_instance.jenkins_master"]
 
   connection {
-    type         = "ssh"
-    user         = "ec2-user"
-    host         = "${aws_instance.jenkins_master.public_ip}"
-    agent        = true
+    type  = "ssh"
+    user  = "ec2-user"
+    host  = "${aws_instance.jenkins_master.public_ip}"
+    agent = true
   }
 
   provisioner "remote-exec" {
     inline = [
       "sudo yum update -y",
-      "sudo yum install -y epel-release ansible git httpd-tools java-1.8.0-openjdk-headless",
-      "git clone https://github.com/ansible/ansible.git",
-      "cd ./ansible",
-      "make rpm",
-      "sudo rpm -Uvh ./rpm-build/ansible-*.noarch.rpm",
-      "ansible-galaxy install geerlingguy.jenkins"
+      "sudo yum install -y git httpd-tools java-1.8.0-openjdk-headless",
+      "sudo pip install ansible",
+      "ansible-galaxy install geerlingguy.jenkins",
     ]
   }
 
