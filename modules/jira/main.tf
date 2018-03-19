@@ -29,5 +29,5 @@ resource "aws_route53_record" "jira" {
   name    = "jira.fastfeedback.rocks"
   type    = "A"
   ttl     = 300
-  records = ["${aws_instance.jira.private_ip}"]
+  records = ["${aws_instance.jira.public_ip}"]
 }
