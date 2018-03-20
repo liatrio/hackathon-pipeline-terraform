@@ -1,36 +1,28 @@
 # Runs ansible playbook and configured Jenkins.
 #
 
-resource "null_resource" "run_base_playbook" {
+# Render an inventory file to use with the jenkins playbook
+data "template_file" "ansible_inventory" {
+  template = "${file("${path.module}/inventory.tpl")}"
+
+  vars {
+    jenkins_master_host = "${aws_instance.jenkins_master.public_ip}"
+  }
+}
+
+resource "null_resource" "jenkins_inventory" {
   depends_on = ["aws_instance.jenkins_master"]
 
-  connection {
-    type  = "ssh"
-    user  = "ec2-user"
-    host  = "${aws_instance.jenkins_master.public_ip}"
-    agent = true
+  provisioner "local-exec" {
+    command = "echo \"${data.template_file.ansible_inventory.rendered}\" > ${path.module}/inventory"
   }
+}
 
-  provisioner "remote-exec" {
-    inline = [
-      "sudo yum update -y",
-      "sudo yum install -y git httpd-tools java-1.8.0-openjdk-headless",
-      "sudo pip install ansible",
-      "ansible-galaxy install geerlingguy.jenkins",
-    ]
-  }
-
-  # Copy inventory to bastion
-  provisioner "file" {
-    content     = "inventory.tpl"
-    destination = "/home/ec2-user/inventory"
-  }
+resource "null_resource" "run_base_playbook" {
+  depends_on = ["null_resource.jenkins_inventory"]
 
   # Run the playbook
-  provisioner "remote-exec" {
-    inline = [
-      "ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook -i /home/ec2-user/inventory playbook.yml",
-      "rm /home/ec2-user/inventory",
-    ]
+  provisioner "local-exec" {
+    command = "ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook -i ${path.module}/inventory ./modules/jenkins_master/playbook.yml"
   }
 }

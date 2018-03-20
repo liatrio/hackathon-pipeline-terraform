@@ -1,2 +1,3 @@
 [jenkins_master]
-jenkins.fastfeedback.rocks
+${jenkins_master_host}  ansible_connection=ssh  ansible_user=ec2-user
+
