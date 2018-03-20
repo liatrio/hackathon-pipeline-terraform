@@ -22,7 +22,7 @@ variable "domain" {
   default = "fastfeedback.rocks"
 }
 
-variable "hackathon_location" {
+variable "inventories_location" {
   default = "."
 }
 
@@ -37,7 +37,7 @@ module "jenkins_master" {
   zone_id            = "${data.aws_route53_zone.domain.zone_id}"
   ssh_sg             = "${aws_security_group.ssh_sg.name}"
   jenkins_sg         = "${aws_security_group.jenkins_sg.name}"
-  hackathon_location = "${var.hackathon_location}"
+  inventories_location = "${var.inventories_location}"
 }
 
 module "jenkins_agents" {

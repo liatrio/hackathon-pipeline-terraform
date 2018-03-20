@@ -2,7 +2,7 @@
 # Runs ansible playbook and configured Jenkins.
 #
 
-variable "hackathon_location" {
+variable "inventories_location" {
   default = "."
 }
 
@@ -20,6 +20,6 @@ resource "null_resource" "jenkins_inventory" {
   depends_on = ["aws_instance.jenkins_master"]
 
   provisioner "local-exec" {
-    command = "echo \"${data.template_file.ansible_inventory.rendered}\" > ${var.hackathon_location}/jenkins_master.inventory"
+    command = "echo \"${data.template_file.ansible_inventory.rendered}\" > ${var.inventories_location}/jenkins_master.inventory"
   }
 }
