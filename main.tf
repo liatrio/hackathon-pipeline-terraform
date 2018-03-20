@@ -22,41 +22,22 @@ variable "domain" {
   default = "fastfeedback.rocks"
 }
 
+variable "inventories_location" {
+  default = "."
+}
+
 data "aws_route53_zone" "domain" {
   name = "${var.domain}"
 }
 
-resource "aws_security_group" "ssh_sg" {
-  name        = "allow_ssh"
-  description = "All SSH traffic"
-
-  tags {
-    Project = "hackathon_pipeline"
-    Name    = "hackathon_sg_ssh"
-  }
-
-  ingress {
-    from_port   = 22
-    to_port     = 22
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-
-  # outbound internet access
-  egress {
-    from_port   = 0
-    to_port     = 0
-    protocol    = "-1"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-}
-
 module "jenkins_master" {
-  source       = "./modules/jenkins_master"
-  aws_key_pair = "${var.aws_key_pair}"
-  tool_name    = "jenkins_master"
-  zone_id      = "${data.aws_route53_zone.domain.zone_id}"
-  ssh_sg       = "${aws_security_group.ssh_sg.name}"
+  source             = "./modules/jenkins_master"
+  aws_key_pair       = "${var.aws_key_pair}"
+  tool_name          = "jenkins_master"
+  zone_id            = "${data.aws_route53_zone.domain.zone_id}"
+  ssh_sg             = "${aws_security_group.ssh_sg.name}"
+  jenkins_sg         = "${aws_security_group.jenkins_sg.name}"
+  inventories_location = "${var.inventories_location}"
 }
 
 module "jenkins_agents" {
