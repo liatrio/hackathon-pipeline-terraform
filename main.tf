@@ -22,17 +22,22 @@ variable "domain" {
   default = "fastfeedback.rocks"
 }
 
+variable "hackathon_location" {
+  default = "."
+}
+
 data "aws_route53_zone" "domain" {
   name = "${var.domain}"
 }
 
 module "jenkins_master" {
-  source       = "./modules/jenkins_master"
-  aws_key_pair = "${var.aws_key_pair}"
-  tool_name    = "jenkins_master"
-  zone_id      = "${data.aws_route53_zone.domain.zone_id}"
-  ssh_sg       = "${aws_security_group.ssh_sg.name}"
-  jenkins_sg   = "${aws_security_group.jenkins_sg.name}"
+  source             = "./modules/jenkins_master"
+  aws_key_pair       = "${var.aws_key_pair}"
+  tool_name          = "jenkins_master"
+  zone_id            = "${data.aws_route53_zone.domain.zone_id}"
+  ssh_sg             = "${aws_security_group.ssh_sg.name}"
+  jenkins_sg         = "${aws_security_group.jenkins_sg.name}"
+  hackathon_location = "${var.hackathon_location}"
 }
 
 module "jenkins_agents" {
