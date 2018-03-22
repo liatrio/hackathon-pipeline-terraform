@@ -9,7 +9,7 @@ variable "ssh_sg" {}
 variable "sonar_sg" {}
 
 resource "aws_instance" "sonarqube" {
-  ami             = "ami-4bf3d731"
+  ami             = "ami-1853ac65"
   instance_type   = "t2.large"
   key_name        = "${var.aws_key_pair}"
   security_groups = ["${var.ssh_sg}", "${var.sonar_sg}"]
