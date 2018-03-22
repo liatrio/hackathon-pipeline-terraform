@@ -43,3 +43,20 @@ resource "aws_security_group" "jenkins_sg" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 }
+
+resource "aws_security_group" "sonar_sg" {
+  name        = "allow_sonar"
+  description = "All sonar traffic"
+
+  tags {
+    Project = "hackathon_pipeline"
+    Name    = "hackathon_sg_sonar"
+  }
+
+  ingress {
+    from_port   = 9000
+    to_port     = 9000
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+}

@@ -6,6 +6,7 @@ variable "aws_key_pair" {}
 variable "tool_name" {}
 variable "zone_id" {}
 variable "ssh_sg" {}
+variable "sonar_sg" {}
 
 data "aws_ebs_volume" "sonar_volume" {
   filter {
@@ -20,7 +21,7 @@ resource "aws_instance" "sonarqube" {
   ami               = "ami-1853ac65"
   instance_type     = "t2.large"
   key_name          = "${var.aws_key_pair}"
-  security_groups   = ["${var.ssh_sg}"]
+  security_groups   = ["${var.ssh_sg}", "${var.sonar_sg}"]
   availability_zone = "us-east-1a"
 
   root_block_device {

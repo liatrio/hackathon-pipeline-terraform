@@ -72,11 +72,13 @@ module "confluence" {
 }
 
 module "sonarqube" {
-  source       = "./modules/sonarqube"
-  aws_key_pair = "${var.aws_key_pair}"
-  tool_name    = "sonarqube"
-  zone_id      = "${data.aws_route53_zone.domain.zone_id}"
-  ssh_sg       = "${aws_security_group.ssh_sg.name}"
+  source               = "./modules/sonarqube"
+  aws_key_pair         = "${var.aws_key_pair}"
+  tool_name            = "sonarqube"
+  zone_id              = "${data.aws_route53_zone.domain.zone_id}"
+  ssh_sg               = "${aws_security_group.ssh_sg.name}"
+  sonar_sg             = "${aws_security_group.sonar_sg.name}"
+  inventories_location = "${var.inventories_location}"
 }
 
 module "artifactory" {

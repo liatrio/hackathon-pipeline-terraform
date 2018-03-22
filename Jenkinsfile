@@ -24,6 +24,18 @@ pipeline {
             withCredentials([sshUserPrivateKey(credentialsId: 'hackathon-key', keyFileVariable: 'keyFileVariable')]) {
               sh "ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook --private-key $keyFileVariable -i  ansible-jenkins/inventory ./ansible-jenkins/jenkins_master.yml"
             }
+          },
+          sonarqube: {
+            dir('ansible-sonarqube') {
+              git branch: 'PA-38-sonar-setup', url: 'https://github.com/liatrio/ansible-sonarqube.git'
+            }
+            sh "cp $JENKINS_HOME/hackathon_inventories/sonarqube.inventory ansible-sonarqube/inventory"
+            sh "ansible-galaxy install geerlingguy.java"
+            sh "ansible-galaxy install geerlingguy.mysql"
+            sh "ansible-galaxy install geerlingguy.sonar"
+            withCredentials([sshUserPrivateKey(credentialsId: 'hackathon-key', keyFileVariable: 'keyFileVariable')]) {
+              sh "ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook --private-key $keyFileVariable -i  ansible-sonarqube/inventory ./ansible-sonarqube/sonarqube.yml"
+            }
           }
           //jenkins_agent: {
           //  dir('ansible-jenkins-agent') {
@@ -65,14 +77,6 @@ pipeline {
           //    sh "echo hello"
           //  }
           //},
-          //sonarqube: {
-          //  dir('ansible-sonarqube') {
-          //    git branch: 'master', url: 'https://github.com/liatrio/ansible-sonarqube.git'
-          //  }
-          //  withCredentials([sshUserPrivateKey(credentialsId: 'hackathon-key', keyFileVariable: 'keyFileVariable')]) {
-          //    sh "echo hello"
-          //  }
-          //}
         )
       }
     }
