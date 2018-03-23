@@ -27,7 +27,7 @@ pipeline {
           },
           sonarqube: {
             dir('ansible-sonarqube') {
-              git branch: 'PA-38-sonar-setup', url: 'https://github.com/liatrio/ansible-sonarqube.git'
+              git branch: 'PA-47-mount-data', url: 'https://github.com/liatrio/ansible-sonarqube.git'
             }
             sh "cp $JENKINS_HOME/hackathon_inventories/sonarqube.inventory ansible-sonarqube/inventory"
             sh "ansible-galaxy install geerlingguy.java"
