@@ -17,7 +17,7 @@ pipeline {
         parallel (
           jenkins_master: {
             dir('ansible-jenkins') {
-              git branch: 'master', url: 'https://github.com/liatrio/ansible-jenkins.git'
+              git branch: 'PA-44-nginx', url: 'https://github.com/liatrio/ansible-jenkins.git'
             }
             sh "cp $JENKINS_HOME/hackathon_inventories/jenkins_master.inventory ansible-jenkins/inventory"
             sh "ansible-galaxy install geerlingguy.jenkins"
