@@ -43,3 +43,20 @@ resource "aws_security_group" "http_sg" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 }
+
+resource "aws_security_group" "jenkins_sg" {
+  name        = "allow_jenkins"
+  description = "All jenkins traffic"
+
+  tags {
+    Project = "hackathon_pipeline"
+    Name    = "hackathon_sg_jenkins"
+  }
+
+  ingress {
+    from_port   = 8080
+    to_port     = 8080
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+}
