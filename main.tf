@@ -36,7 +36,7 @@ module "jenkins_master" {
   tool_name            = "jenkins_master"
   zone_id              = "${data.aws_route53_zone.domain.zone_id}"
   ssh_sg               = "${aws_security_group.ssh_sg.name}"
-  jenkins_sg           = "${aws_security_group.jenkins_sg.name}"
+  http_sg              = "${aws_security_group.http_sg.name}"
   inventories_location = "${var.inventories_location}"
 }
 
@@ -77,7 +77,7 @@ module "sonarqube" {
   tool_name            = "sonarqube"
   zone_id              = "${data.aws_route53_zone.domain.zone_id}"
   ssh_sg               = "${aws_security_group.ssh_sg.name}"
-  sonar_sg             = "${aws_security_group.sonar_sg.name}"
+  http_sg              = "${aws_security_group.http_sg.name}"
   inventories_location = "${var.inventories_location}"
 }
 
