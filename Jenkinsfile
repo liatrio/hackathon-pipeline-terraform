@@ -20,6 +20,7 @@ pipeline {
               git branch: 'master', url: 'https://github.com/liatrio/ansible-jenkins.git'
             }
             sh "cp $JENKINS_HOME/hackathon_inventories/jenkins_master.inventory ansible-jenkins/inventory"
+            sh "ansible-galaxy install liatrio.mount_persist_data"
             sh "ansible-galaxy install geerlingguy.jenkins"
             withCredentials([sshUserPrivateKey(credentialsId: 'hackathon-key', keyFileVariable: 'keyFileVariable')]) {
               sh "ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook --private-key $keyFileVariable -i  ansible-jenkins/inventory ./ansible-jenkins/jenkins_master.yml"
@@ -30,6 +31,7 @@ pipeline {
               git branch: 'master', url: 'https://github.com/liatrio/ansible-sonarqube.git'
             }
             sh "cp $JENKINS_HOME/hackathon_inventories/sonarqube.inventory ansible-sonarqube/inventory"
+            sh "ansible-galaxy install liatrio.mount_persist_data"
             sh "ansible-galaxy install geerlingguy.java"
             sh "ansible-galaxy install geerlingguy.mysql"
             sh "ansible-galaxy install geerlingguy.sonar"
