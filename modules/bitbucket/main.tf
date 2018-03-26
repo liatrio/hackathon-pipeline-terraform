@@ -35,9 +35,10 @@ resource "aws_instance" "bitbucket" {
 }
 
 resource "aws_volume_attachment" "bitbucket_data" {
-  device_name = "/dev/sdh"
-  volume_id   = "${data.aws_ebs_volume.bitbucket_volume.volume_id}"
-  instance_id = "${aws_instance.bitbucket.id}"
+  device_name  = "/dev/sdh"
+  volume_id    = "${data.aws_ebs_volume.bitbucket_volume.volume_id}"
+  instance_id  = "${aws_instance.bitbucket.id}"
+  skip_destroy = true
 }
 
 resource "aws_route53_record" "bitbucket" {

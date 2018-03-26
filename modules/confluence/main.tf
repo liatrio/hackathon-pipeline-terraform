@@ -35,9 +35,10 @@ resource "aws_instance" "confluence" {
 }
 
 resource "aws_volume_attachment" "confluence_data" {
-  device_name = "/dev/sdh"
-  volume_id   = "${data.aws_ebs_volume.confluence_volume.volume_id}"
-  instance_id = "${aws_instance.confluence.id}"
+  device_name  = "/dev/sdh"
+  volume_id    = "${data.aws_ebs_volume.confluence_volume.volume_id}"
+  instance_id  = "${aws_instance.confluence.id}"
+  skip_destroy = true
 }
 
 resource "aws_route53_record" "confluence" {
