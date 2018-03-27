@@ -27,6 +27,23 @@ resource "aws_security_group" "ssh_sg" {
   }
 }
 
+resource "aws_security_group" "http_sg" {
+  name        = "allow_http"
+  description = "All http traffic"
+
+  tags {
+    Project = "hackathon_pipeline"
+    Name    = "hackathon_sg_http"
+  }
+
+  ingress {
+    from_port   = 80
+    to_port     = 80
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+}
+
 resource "aws_security_group" "jenkins_sg" {
   name        = "allow_jenkins"
   description = "All jenkins traffic"
@@ -39,23 +56,6 @@ resource "aws_security_group" "jenkins_sg" {
   ingress {
     from_port   = 8080
     to_port     = 8080
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-}
-
-resource "aws_security_group" "sonar_sg" {
-  name        = "allow_sonar"
-  description = "All sonar traffic"
-
-  tags {
-    Project = "hackathon_pipeline"
-    Name    = "hackathon_sg_sonar"
-  }
-
-  ingress {
-    from_port   = 9000
-    to_port     = 9000
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
