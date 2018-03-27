@@ -46,6 +46,7 @@ pipeline {
             dir('ansible-artifactory'){
               git branch: 'PA-55-ansible-playbook', url: 'https://github.com/liatrio/ansible-artifactory.git'
             }
+            sh "cp $JENKINS_HOME/hackathon_inventories/artifactory.inventory ansible-artifactory/inventory"
             sh "ansible-galaxy install liatrio.mount_persist_data"
             sh "ansible-galaxy install geerlingguy.java"
             sh "ansible-galaxy install geerlingguy.mysql"
