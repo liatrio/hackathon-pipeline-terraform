@@ -45,7 +45,9 @@ module "jenkins_agents" {
   source       = "./modules/jenkins_agents"
   aws_key_pair = "${var.aws_key_pair}"
   tool_name    = "jenkins_agent"
+  zone_id      = "${data.aws_route53_zone.domain.zone_id}"
   ssh_sg       = "${aws_security_group.ssh_sg.name}"
+  agent_count  = "5"
 }
 
 module "bitbucket" {
