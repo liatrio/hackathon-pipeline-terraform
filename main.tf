@@ -47,6 +47,7 @@ module "jenkins_agents" {
   tool_name    = "jenkins_agent"
   zone_id      = "${data.aws_route53_zone.domain.zone_id}"
   ssh_sg       = "${aws_security_group.ssh_sg.name}"
+  agent_sg     = "${aws_security_group.jenkins_agent.name}"
   agent_count  = "5"
 }
 
