@@ -35,9 +35,10 @@ resource "aws_instance" "artifactory" {
 }
 
 resource "aws_volume_attachment" "artifactory_data" {
-  device_name = "/dev/sdh"
-  volume_id   = "${data.aws_ebs_volume.artifactory_volume.volume_id}"
-  instance_id = "${aws_instance.artifactory.id}"
+  device_name  = "/dev/sdh"
+  volume_id    = "${data.aws_ebs_volume.artifactory_volume.volume_id}"
+  instance_id  = "${aws_instance.artifactory.id}"
+  skip_destroy = true
 }
 
 resource "aws_route53_record" "artifactory" {

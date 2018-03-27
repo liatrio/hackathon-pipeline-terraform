@@ -37,9 +37,10 @@ resource "aws_instance" "jenkins_master" {
 }
 
 resource "aws_volume_attachment" "jenkins_master_data" {
-  device_name = "/dev/sdh"
-  volume_id   = "${data.aws_ebs_volume.jenkins_master_volume.volume_id}"
-  instance_id = "${aws_instance.jenkins_master.id}"
+  device_name  = "/dev/sdh"
+  volume_id    = "${data.aws_ebs_volume.jenkins_master_volume.volume_id}"
+  instance_id  = "${aws_instance.jenkins_master.id}"
+  skip_destroy = true
 }
 
 resource "aws_route53_record" "jenkins" {

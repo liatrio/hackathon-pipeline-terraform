@@ -35,9 +35,10 @@ resource "aws_instance" "jira" {
 }
 
 resource "aws_volume_attachment" "jira_data" {
-  device_name = "/dev/sdh"
-  volume_id   = "${data.aws_ebs_volume.jira_volume.volume_id}"
-  instance_id = "${aws_instance.jira.id}"
+  device_name  = "/dev/sdh"
+  volume_id    = "${data.aws_ebs_volume.jira_volume.volume_id}"
+  instance_id  = "${aws_instance.jira.id}"
+  skip_destroy = true
 }
 
 resource "aws_route53_record" "jira" {

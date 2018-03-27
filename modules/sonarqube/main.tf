@@ -36,9 +36,10 @@ resource "aws_instance" "sonarqube" {
 }
 
 resource "aws_volume_attachment" "sonar_data" {
-  device_name = "/dev/sdh"
-  volume_id   = "${data.aws_ebs_volume.sonar_volume.volume_id}"
-  instance_id = "${aws_instance.sonarqube.id}"
+  device_name  = "/dev/sdh"
+  volume_id    = "${data.aws_ebs_volume.sonar_volume.volume_id}"
+  instance_id  = "${aws_instance.sonarqube.id}"
+  skip_destroy = true
 }
 
 resource "aws_route53_record" "sonarqube" {
