@@ -41,6 +41,19 @@ pipeline {
             withCredentials([sshUserPrivateKey(credentialsId: 'hackathon-key', keyFileVariable: 'keyFileVariable')]) {
               sh "ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook --private-key $keyFileVariable -i  ansible-sonarqube/inventory ./ansible-sonarqube/sonarqube.yml"
             }
+          },
+          artifactory: {
+            dir('ansible-artifactory'){
+              git branch: 'PA-55-ansible-playbook', url: 'https://github.com/liatrio/ansible-artifactory.git'
+            }
+            sh "ansible-galaxy install liatrio.mount_persist_data"
+            sh "ansible-galaxy install geerlingguy.java"
+            sh "ansible-galaxy install geerlingguy.mysql"
+            sh "ansible-galaxy install geerlingguy.nginx"
+            sh "ansible-galaxy install bbaassssiiee.artifactory"
+            withCredentials([sshUserPrivateKey(credentialsId: 'hackathon-key', keyFileVariable: 'keyFileVariable')]) {
+              sh "ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook --private-key $keyFileVariable -i  ansible-artifactory/inventory ./ansible-artifactory/artifactory.yml"
+            }
           }
           //jenkins_agent: {
           //  dir('ansible-jenkins-agent') {
@@ -53,14 +66,6 @@ pipeline {
           //bitbucket: {
           //  dir('ansible-bitbucket') {
           //    git branch: 'master', url: 'https://github.com/liatrio/ansible-bitbucket.git'
-          //  }
-          //  withCredentials([sshUserPrivateKey(credentialsId: 'hackathon-key', keyFileVariable: 'keyFileVariable')]) {
-          //    sh "echo hello"
-          //  }
-          //},
-          //artifactory: {
-          //  dir('ansible-artifactory'){
-          //    git branch: 'master', url: 'https://github.com/liatrio/ansible-artifactory.git'
           //  }
           //  withCredentials([sshUserPrivateKey(credentialsId: 'hackathon-key', keyFileVariable: 'keyFileVariable')]) {
           //    sh "echo hello"
