@@ -55,11 +55,12 @@ pipeline {
               git branch: 'PA-52-initial-ansible', url: 'https://github.com/liatrio/ansible-bitbucket.git'
             }
             sh "cp $JENKINS_HOME/hackathon_inventories/bitbucket.inventory ansible-bitbucket/inventory"
+            sh "ansible-galaxy install liatrio.mount_persist_data"
             sh "ansible-galaxy install geerlingguy.git"
             sh "ansible-galaxy install ANXS.postgresql"
             sh "ansible-galaxy install geerlingguy.nginx"
             withCredentials([sshUserPrivateKey(credentialsId: 'hackathon-key', keyFileVariable: 'keyFileVariable')]) {
-              sh "ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook --private-key $keyFileVariable -i ansible-bitbucket/inventory ./ansible-jenkins/bitbucket.yml"
+              sh "ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook --private-key $keyFileVariable -i ansible-bitbucket/inventory ./ansible-bitbucket/bitbucket.yml"
             }
           }
           //artifactory: {
