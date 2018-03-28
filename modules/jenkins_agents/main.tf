@@ -9,7 +9,7 @@ variable "agent_sg" {}
 variable "zone_id" {}
 
 variable "agent_count" {
-  default = 2
+  default = 5
 }
 
 resource "aws_instance" "jenkins_agent" {
