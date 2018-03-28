@@ -58,6 +58,7 @@ pipeline {
             sh "ansible-galaxy install liatrio.mount_persist_data"
             sh "ansible-galaxy install geerlingguy.git"
             sh "ansible-galaxy install ANXS.postgresql"
+            sh "ansible-galaxy install geerlingguy.elasticsearch"
             sh "ansible-galaxy install geerlingguy.nginx"
             withCredentials([sshUserPrivateKey(credentialsId: 'hackathon-key', keyFileVariable: 'keyFileVariable')]) {
               sh "ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook --private-key $keyFileVariable -i ansible-bitbucket/inventory ./ansible-bitbucket/bitbucket.yml"
