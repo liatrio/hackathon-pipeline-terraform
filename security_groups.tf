@@ -60,3 +60,28 @@ resource "aws_security_group" "jenkins_sg" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 }
+
+resource "aws_security_group" "jenkins_agent" {
+  name        = "jenkins_agent"
+  description = "Jenkins agent port"
+
+  tags {
+    Project = "hackathon_pipeline"
+    Name    = "hackathon_sg_jenkins_agent"
+  }
+
+  ingress {
+    from_port   = 49187
+    to_port     = 49187
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  # outbound internet access
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+}
