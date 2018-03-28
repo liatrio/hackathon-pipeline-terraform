@@ -52,7 +52,7 @@ pipeline {
           //},
           bitbucket: {
             dir('ansible-bitbucket') {
-              git branch: 'PA-52-initial-ansible', url: 'https://github.com/liatrio/ansible-bitbucket.git'
+              git branch: 'master', url: 'https://github.com/liatrio/ansible-bitbucket.git'
             }
             sh "cp $JENKINS_HOME/hackathon_inventories/bitbucket.inventory ansible-bitbucket/inventory"
             sh "ansible-galaxy install liatrio.mount_persist_data"
