@@ -52,7 +52,7 @@ pipeline {
             sh "ansible-galaxy install geerlingguy.mysql"
             sh "ansible-galaxy install geerlingguy.nginx"
             withCredentials([string(credentialsId: 'mysql_password', variable: 'mp')]) {
-              sh "ansible-galaxy --extra-vars "{'mysql_root_password'\:'${mp}'}" install bbaassssiiee.artifactory"
+              sh "ansible-galaxy --extra-vars "{'mysql_root_password':'${mp}'}" install bbaassssiiee.artifactory"
             }
             withCredentials([sshUserPrivateKey(credentialsId: 'hackathon-key', keyFileVariable: 'keyFileVariable')]) {
               sh "ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook --private-key $keyFileVariable -i  ansible-artifactory/inventory ./ansible-artifactory/artifactory.yml"
