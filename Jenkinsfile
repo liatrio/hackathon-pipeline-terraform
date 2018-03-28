@@ -66,14 +66,14 @@ pipeline {
           //    sh "echo hello"
           //  }
           //},
-          //jira: {
-          //  dir('ansible-jira') {
-          //    git branch: 'master', url: 'https://github.com/liatrio/ansible-jira.git'
-          //  }
-          //  withCredentials([sshUserPrivateKey(credentialsId: 'hackathon-key', keyFileVariable: 'keyFileVariable')]) {
-          //    sh "echo hello"
-          //  }
-          //},
+          jira: {
+            dir('ansible-jira') {
+              git branch: 'master', url: 'https://github.com/liatrio/ansible-jira.git'
+            }
+            withCredentials([sshUserPrivateKey(credentialsId: 'hackathon-key', keyFileVariable: 'keyFileVariable')]) {
+              sh "ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook --private-key $keyFileVariable -i  ansible-jira/inventory ./ansible-jira/jira.yml"
+            }
+          },
           //confluence: {
           //  dir('ansible-confluence') {
           //    git branch: 'master', url: 'https://github.com/liatrio/ansible-confluence.git'
