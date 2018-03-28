@@ -54,6 +54,7 @@ module "bitbucket" {
   tool_name            = "bitbucket"
   zone_id              = "${data.aws_route53_zone.domain.zone_id}"
   ssh_sg               = "${aws_security_group.ssh_sg.name}"
+  http_sg              = "${aws_security_group.http_sg.name}"
   inventories_location = "${var.inventories_location}"
 }
 

@@ -6,7 +6,7 @@ variable "inventories_location" {
   default = "."
 }
 
-# Render an inventory file to use with the jenkins playbook
+# Render an inventory file to use with the bitbucket playbook
 data "template_file" "ansible_inventory" {
   template = "${file("${path.module}/inventory.tpl")}"
 

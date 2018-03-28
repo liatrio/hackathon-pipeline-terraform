@@ -59,7 +59,7 @@ pipeline {
             sh "ansible-galaxy install ANXS.postgresql"
             sh "ansible-galaxy install geerlingguy.nginx"
             withCredentials([sshUserPrivateKey(credentialsId: 'hackathon-key', keyFileVariable: 'keyFileVariable')]) {
-              sh "echo hello"
+              sh "ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook --private-key $keyFileVariable -i ansible-bitbucket/inventory ./ansible-jenkins/bitbucket.yml"
             }
           }
           //artifactory: {
