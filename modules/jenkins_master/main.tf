@@ -1,10 +1,8 @@
-#
 # Creates Jenkins Infrastructure
 #
 
 variable "aws_key_pair" {}
 variable "tool_name" {}
-variable "zone_id" {}
 variable "ssh_sg" {}
 variable "http_sg" {}
 variable "jenkins_sg" {}
@@ -41,12 +39,4 @@ resource "aws_volume_attachment" "jenkins_master_data" {
   volume_id    = "${data.aws_ebs_volume.jenkins_master_volume.volume_id}"
   instance_id  = "${aws_instance.jenkins_master.id}"
   skip_destroy = true
-}
-
-resource "aws_route53_record" "jenkins" {
-  zone_id = "${var.zone_id}"
-  name    = "jenkins.fastfeedback.rocks"
-  type    = "A"
-  ttl     = 300
-  records = ["${aws_instance.jenkins_master.public_ip}"]
 }
