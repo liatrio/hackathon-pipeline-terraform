@@ -53,11 +53,13 @@ module "jenkins_agents" {
 }
 
 module "bitbucket" {
-  source       = "./modules/bitbucket"
-  aws_key_pair = "${var.aws_key_pair}"
-  tool_name    = "bitbucket"
-  zone_id      = "${data.aws_route53_zone.domain.zone_id}"
-  ssh_sg       = "${aws_security_group.ssh_sg.name}"
+  source               = "./modules/bitbucket"
+  aws_key_pair         = "${var.aws_key_pair}"
+  tool_name            = "bitbucket"
+  zone_id              = "${data.aws_route53_zone.domain.zone_id}"
+  ssh_sg               = "${aws_security_group.ssh_sg.name}"
+  http_sg              = "${aws_security_group.http_sg.name}"
+  inventories_location = "${var.inventories_location}"
 }
 
 module "jira" {
