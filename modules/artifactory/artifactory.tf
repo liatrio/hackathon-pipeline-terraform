@@ -11,7 +11,7 @@ data "template_file" "ansible_inventory" {
   template = "${file("${path.module}/inventory.tpl")}"
 
   vars {
-    artifactory_host = "${aws_instance.artifactory.public_ip}"
+    artifactory_host = "${aws_eip.artifactory.public_ip}"
   }
 }
 
