@@ -63,6 +63,7 @@ pipeline {
             withCredentials(
             sh "cp $JENKINS_HOME/hackathon_inventories/crowd.inventory ansible-crowd/inventory"
             sh "ansible-galaxy install liatrio.mount_persist_data"
+            sh "ansible-galaxy install geerlingguy.java"
             sh "ansible-galaxy install ANXS.postgresql"
             sh "ansible-galaxy install hudecof.atlassian-crowd"
             sh "ansible-galaxy install geerlingguy.nginx"
