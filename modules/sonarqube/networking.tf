@@ -32,7 +32,7 @@ resource "aws_route53_record" "sonarqube" {
 }
 
 resource "aws_route53_health_check" "sonarqube" {
-  fqdn              = "${var.tool_fqdn}"
+  ip_address        = "${aws_eip.sonarqube.public_ip}"
   port              = 80
   type              = "HTTP"
   failure_threshold = "3"

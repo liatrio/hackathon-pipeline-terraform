@@ -32,7 +32,7 @@ resource "aws_route53_record" "artifactory" {
 }
 
 resource "aws_route53_health_check" "artifactory" {
-  fqdn              = "${var.tool_fqdn}"
+  ip_address        = "${aws_eip.artifactory.public_ip}"
   port              = 80
   type              = "HTTP"
   failure_threshold = "3"

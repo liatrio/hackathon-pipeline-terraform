@@ -32,7 +32,7 @@ resource "aws_route53_record" "confluence" {
 }
 
 resource "aws_route53_health_check" "confluence" {
-  fqdn              = "${var.tool_fqdn}"
+  ip_address        = "${aws_eip.confluence.public_ip}"
   port              = 80
   type              = "HTTP"
   failure_threshold = "3"

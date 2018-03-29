@@ -32,7 +32,7 @@ resource "aws_route53_record" "jenkins_master" {
 }
 
 resource "aws_route53_health_check" "jenkins_master" {
-  fqdn              = "${var.tool_fqdn}"
+  ip_address        = "${aws_eip.jenkins_master.public_ip}"
   port              = 80
   type              = "HTTP"
   failure_threshold = "3"

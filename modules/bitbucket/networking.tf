@@ -32,7 +32,7 @@ resource "aws_route53_record" "bitbucket" {
 }
 
 resource "aws_route53_health_check" "bitbucket" {
-  fqdn              = "${var.tool_fqdn}"
+  ip_address        = "${aws_eip.bitbucket.public_ip}"
   port              = 80
   type              = "HTTP"
   failure_threshold = "3"
