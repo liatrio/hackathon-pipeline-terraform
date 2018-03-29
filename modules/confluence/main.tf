@@ -4,7 +4,6 @@
 
 variable "aws_key_pair" {}
 variable "tool_name" {}
-variable "zone_id" {}
 variable "ssh_sg" {}
 
 data "aws_ebs_volume" "confluence_volume" {
@@ -39,12 +38,4 @@ resource "aws_volume_attachment" "confluence_data" {
   volume_id    = "${data.aws_ebs_volume.confluence_volume.volume_id}"
   instance_id  = "${aws_instance.confluence.id}"
   skip_destroy = true
-}
-
-resource "aws_route53_record" "confluence" {
-  zone_id = "${var.zone_id}"
-  name    = "confluence.fastfeedback.rocks"
-  type    = "A"
-  ttl     = 300
-  records = ["${aws_instance.confluence.public_ip}"]
 }

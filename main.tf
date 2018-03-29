@@ -36,23 +36,32 @@ data "aws_route53_zone" "domain" {
 
 # Modules
 module "artifactory" {
+  source        = "./modules/artifactory"
   aws_key_pair  = "${var.aws_key_pair}"
   pipeline_name = "${var.pipeline_name}"
-  source        = "./modules/artifactory"
   ssh_sg        = "${aws_security_group.ssh_sg.name}"
   tool_name     = "artifactory"
   zone_id       = "${data.aws_route53_zone.domain.zone_id}"
 }
 
 module "bitbucket" {
+  source               = "./modules/bitbucket"
   aws_key_pair         = "${var.aws_key_pair}"
   http_sg              = "${aws_security_group.http_sg.name}"
   inventories_location = "${var.inventories_location}"
   pipeline_name        = "${var.pipeline_name}"
-  source               = "./modules/bitbucket"
   ssh_sg               = "${aws_security_group.ssh_sg.name}"
   tool_name            = "bitbucket"
   zone_id              = "${data.aws_route53_zone.domain.zone_id}"
+}
+
+module "confluence" {
+  source        = "./modules/confluence"
+  aws_key_pair  = "${var.aws_key_pair}"
+  pipeline_name = "${var.pipeline_name}"
+  ssh_sg        = "${aws_security_group.ssh_sg.name}"
+  tool_name     = "confluence"
+  zone_id       = "${data.aws_route53_zone.domain.zone_id}"
 }
 
 module "jenkins_master" {
@@ -81,14 +90,6 @@ module "jira" {
   source       = "./modules/jira"
   aws_key_pair = "${var.aws_key_pair}"
   tool_name    = "jira"
-  zone_id      = "${data.aws_route53_zone.domain.zone_id}"
-  ssh_sg       = "${aws_security_group.ssh_sg.name}"
-}
-
-module "confluence" {
-  source       = "./modules/confluence"
-  aws_key_pair = "${var.aws_key_pair}"
-  tool_name    = "confluence"
   zone_id      = "${data.aws_route53_zone.domain.zone_id}"
   ssh_sg       = "${aws_security_group.ssh_sg.name}"
 }
