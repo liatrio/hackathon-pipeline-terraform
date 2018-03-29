@@ -14,6 +14,10 @@ variable "aws_key_pair" {
   default = "hackathon_pipeline"
 }
 
+variable "pipeline_name" {
+  default = "hackathon_"
+}
+
 variable "tool_name" {
   default = "extra_server"
 }
@@ -28,6 +32,16 @@ variable "inventories_location" {
 
 data "aws_route53_zone" "domain" {
   name = "${var.domain}"
+}
+
+# Modules
+module "artifactory" {
+  aws_key_pair  = "${var.aws_key_pair}"
+  pipeline_name = "${var.pipeline_name}"
+  source        = "./modules/artifactory"
+  ssh_sg        = "${aws_security_group.ssh_sg.name}"
+  tool_name     = "artifactory"
+  zone_id       = "${data.aws_route53_zone.domain.zone_id}"
 }
 
 module "jenkins_master" {
@@ -86,12 +100,4 @@ module "sonarqube" {
   ssh_sg               = "${aws_security_group.ssh_sg.name}"
   http_sg              = "${aws_security_group.http_sg.name}"
   inventories_location = "${var.inventories_location}"
-}
-
-module "artifactory" {
-  source       = "./modules/artifactory"
-  aws_key_pair = "${var.aws_key_pair}"
-  tool_name    = "artifactory"
-  zone_id      = "${data.aws_route53_zone.domain.zone_id}"
-  ssh_sg       = "${aws_security_group.ssh_sg.name}"
 }
