@@ -36,12 +36,14 @@ data "aws_route53_zone" "domain" {
 
 # Modules
 module "artifactory" {
-  source        = "./modules/artifactory"
-  aws_key_pair  = "${var.aws_key_pair}"
-  pipeline_name = "${var.pipeline_name}"
-  ssh_sg        = "${aws_security_group.ssh_sg.name}"
-  tool_name     = "artifactory"
-  zone_id       = "${data.aws_route53_zone.domain.zone_id}"
+  source               = "./modules/artifactory"
+  aws_key_pair         = "${var.aws_key_pair}"
+  http_sg              = "${aws_security_group.http_sg.name}"
+  inventories_location = "${var.inventories_location}"
+  tool_name            = "artifactory"
+  ssh_sg               = "${aws_security_group.ssh_sg.name}"
+  pipeline_name        = "${var.pipeline_name}"
+  zone_id              = "${data.aws_route53_zone.domain.zone_id}"
 }
 
 module "bitbucket" {
@@ -62,6 +64,17 @@ module "confluence" {
   ssh_sg        = "${aws_security_group.ssh_sg.name}"
   tool_name     = "confluence"
   zone_id       = "${data.aws_route53_zone.domain.zone_id}"
+}
+
+module "crowd" {
+  source               = "./modules/crowd"
+  aws_key_pair         = "${var.aws_key_pair}"
+  http_sg              = "${aws_security_group.http_sg.name}"
+  inventories_location = "${var.inventories_location}"
+  pipeline_name        = "${var.pipeline_name}"
+  ssh_sg               = "${aws_security_group.ssh_sg.name}"
+  tool_name            = "crowd"
+  zone_id              = "${data.aws_route53_zone.domain.zone_id}"
 }
 
 module "jenkins_agents" {
@@ -105,16 +118,5 @@ module "sonarqube" {
   pipeline_name        = "${var.pipeline_name}"
   ssh_sg               = "${aws_security_group.ssh_sg.name}"
   tool_name            = "sonarqube"
-  zone_id              = "${data.aws_route53_zone.domain.zone_id}"
-}
-
-module "crowd" {
-  source               = "./modules/crowd"
-  aws_key_pair         = "${var.aws_key_pair}"
-  http_sg              = "${aws_security_group.http_sg.name}"
-  inventories_location = "${var.inventories_location}"
-  pipeline_name        = "${var.pipeline_name}"
-  ssh_sg               = "${aws_security_group.ssh_sg.name}"
-  tool_name            = "crowd"
   zone_id              = "${data.aws_route53_zone.domain.zone_id}"
 }
