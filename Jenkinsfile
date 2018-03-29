@@ -60,7 +60,6 @@ pipeline {
             dir('ansible-crowd') {
               git branch: 'master', url: 'https://github.com/liatrio/ansible-crowd.git'
             }
-            withCredentials(
             sh "cp $JENKINS_HOME/hackathon_inventories/crowd.inventory ansible-crowd/inventory"
             sh "ansible-galaxy install liatrio.mount_persist_data"
             sh "ansible-galaxy install geerlingguy.java"
