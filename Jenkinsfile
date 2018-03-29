@@ -28,7 +28,7 @@ pipeline {
             withCredentials([sshUserPrivateKey(credentialsId: 'hackathon-key', keyFileVariable: 'keyFileVariable')]) {
               sh "ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook --private-key $keyFileVariable -i ansible-bitbucket/inventory ./ansible-bitbucket/bitbucket.yml"
             }
-          }
+          },
           jenkins_master: {
             dir('ansible-jenkins') {
               git branch: 'master', url: 'https://github.com/liatrio/ansible-jenkins.git'
@@ -55,6 +55,7 @@ pipeline {
             withCredentials([sshUserPrivateKey(credentialsId: 'hackathon-key', keyFileVariable: 'keyFileVariable')]) {
               sh "ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook --private-key $keyFileVariable -i  ansible-sonarqube/inventory ./ansible-sonarqube/sonarqube.yml"
             }
+          }
           //artifactory: {
           //  dir('ansible-artifactory'){
           //    git branch: 'master', url: 'https://github.com/liatrio/ansible-artifactory.git'
