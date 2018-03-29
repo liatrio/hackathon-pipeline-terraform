@@ -79,12 +79,13 @@ module "jenkins_agents" {
 module "jenkins_master" {
   source               = "./modules/jenkins_master"
   aws_key_pair         = "${var.aws_key_pair}"
+  http_sg              = "${aws_security_group.http_sg.name}"
+  inventories_location = "${var.inventories_location}"
+  jenkins_sg           = "${aws_security_group.jenkins_sg.name}"
+  pipeline_name        = "${var.pipeline_name}"
+  ssh_sg               = "${aws_security_group.ssh_sg.name}"
   tool_name            = "jenkins_master"
   zone_id              = "${data.aws_route53_zone.domain.zone_id}"
-  ssh_sg               = "${aws_security_group.ssh_sg.name}"
-  http_sg              = "${aws_security_group.http_sg.name}"
-  jenkins_sg           = "${aws_security_group.jenkins_sg.name}"
-  inventories_location = "${var.inventories_location}"
 }
 
 module "jira" {
