@@ -56,6 +56,23 @@ pipeline {
               sh "ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook --private-key $keyFileVariable -i  ansible-sonarqube/inventory ./ansible-sonarqube/sonarqube.yml"
             }
           }
+          crowd: {
+            dir('ansible-crowd') {
+              git branch: 'master', url: 'https://github.com/liatrio/ansible-crowd.git'
+            }
+            withCredentials(
+            sh "cp $JENKINS_HOME/hackathon_inventories/crowd.inventory ansible-crowd/inventory"
+            sh "ansible-galaxy install liatrio.mount_persist_data"
+            sh "ansible-galaxy install geerlingguy.java"
+            sh "ansible-galaxy install ANXS.postgresql"
+            sh "ansible-galaxy install hudecof.atlassian-crowd"
+            sh "ansible-galaxy install geerlingguy.nginx"
+            withCredentials([sshUserPrivateKey(credentialsId: 'hackathon-key', keyFileVariable: 'keyFileVariable')]) {
+              withCredentials([usernamePassword(credentialsId: 'hackathon-crowd-postgres', passwordVariable: 'postgresPass', usernameVariable: 'postgresUser')]) {
+                sh "ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook --private-key $keyFileVariable --extra-vars \"postgresql_crowd_user=$postgresUser postgresql_crowd_password=$postgresPass\" -i ansible-crowd/inventory ./ansible-crowd/crowd.yml"
+              }
+            }
+          },
           //artifactory: {
           //  dir('ansible-artifactory'){
           //    git branch: 'master', url: 'https://github.com/liatrio/ansible-artifactory.git'
