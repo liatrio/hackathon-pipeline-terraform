@@ -15,6 +15,20 @@ pipeline {
     stage("Run Ansible Playbooks") {
       steps {
         parallel (
+          bitbucket: {
+            dir('ansible-bitbucket') {
+              git branch: 'master', url: 'https://github.com/liatrio/ansible-bitbucket.git'
+            }
+            sh "cp $JENKINS_HOME/hackathon_inventories/bitbucket.inventory ansible-bitbucket/inventory"
+            sh "ansible-galaxy install liatrio.mount_persist_data"
+            sh "ansible-galaxy install geerlingguy.git"
+            sh "ansible-galaxy install ANXS.postgresql"
+            sh "ansible-galaxy install geerlingguy.elasticsearch"
+            sh "ansible-galaxy install geerlingguy.nginx"
+            withCredentials([sshUserPrivateKey(credentialsId: 'hackathon-key', keyFileVariable: 'keyFileVariable')]) {
+              sh "ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook --private-key $keyFileVariable -i ansible-bitbucket/inventory ./ansible-bitbucket/bitbucket.yml"
+            }
+          },
           jenkins_master: {
             dir('ansible-jenkins') {
               git branch: 'master', url: 'https://github.com/liatrio/ansible-jenkins.git'
@@ -57,15 +71,7 @@ pipeline {
                 sh "ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook --private-key $keyFileVariable -i  ansible-artifactory/inventory ./ansible-artifactory/artifactory.yml --extra-vars mysql_root_password='${mp}'"
               }
             }
-          }
-          //jenkins_agent: {
-          //  dir('ansible-jenkins-agent') {
-          //    git branch: 'master', url: 'https://github.com/liatrio/ansible-jenkins-agents.git'
-          //  }
-          //  withCredentials([sshUserPrivateKey(credentialsId: 'hackathon-key', keyFileVariable: 'keyFileVariable')]) {
-          //    sh "echo hello"
-          //  }
-          //},
+          },
           //bitbucket: {
           //  dir('ansible-bitbucket') {
           //    git branch: 'master', url: 'https://github.com/liatrio/ansible-bitbucket.git'
@@ -74,6 +80,22 @@ pipeline {
           //    sh "echo hello"
           //  }
           //},
+          crowd: {
+            dir('ansible-crowd') {
+              git branch: 'master', url: 'https://github.com/liatrio/ansible-crowd.git'
+            }
+            sh "cp $JENKINS_HOME/hackathon_inventories/crowd.inventory ansible-crowd/inventory"
+            sh "ansible-galaxy install liatrio.mount_persist_data"
+            sh "ansible-galaxy install geerlingguy.java"
+            sh "ansible-galaxy install ANXS.postgresql"
+            sh "ansible-galaxy install hudecof.atlassian-crowd"
+            sh "ansible-galaxy install geerlingguy.nginx"
+            withCredentials([sshUserPrivateKey(credentialsId: 'hackathon-key', keyFileVariable: 'keyFileVariable')]) {
+              withCredentials([usernamePassword(credentialsId: 'hackathon-crowd-postgres', passwordVariable: 'postgresPass', usernameVariable: 'postgresUser')]) {
+                sh "ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook --private-key $keyFileVariable --extra-vars \"postgresql_crowd_user=$postgresUser postgresql_crowd_password=$postgresPass\" -i ansible-crowd/inventory ./ansible-crowd/crowd.yml"
+              }
+            }
+          },
           //jira: {
           //  dir('ansible-jira') {
           //    git branch: 'master', url: 'https://github.com/liatrio/ansible-jira.git'
@@ -93,6 +115,16 @@ pipeline {
         )
       }
     }
+    stage('setup Jenkins Agents'){
+      steps {
+        dir('ansible-jenkins-agents') {
+          git branch: 'master', url: 'https://github.com/liatrio/ansible-jenkins-agents.git'
+        }
+        sh "cp $JENKINS_HOME/hackathon_inventories/jenkins_agents.inventory ansible-jenkins-agents/inventory"
+        withCredentials([sshUserPrivateKey(credentialsId: 'hackathon-key', keyFileVariable: 'keyFileVariable')]) {
+          sh "ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook --private-key $keyFileVariable -i  ansible-jenkins-agents/inventory ./ansible-jenkins-agents/jenkins_agents.yml"
+        }
+      }
+    }
   }
 }
-

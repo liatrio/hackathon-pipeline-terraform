@@ -1,5 +1,5 @@
 #
-# Creates Artifactory Infrastructure
+# Creates Crowd Infrastructure
 #
 
 variable "aws_key_pair" {}
@@ -7,18 +7,18 @@ variable "tool_name" {}
 variable "ssh_sg" {}
 variable "http_sg" {}
 
-data "aws_ebs_volume" "artifactory_volume" {
+data "aws_ebs_volume" "crowd_volume" {
   filter {
     name   = "tag:Name"
-    values = ["artifactory_data"]
+    values = ["crowd_data"]
   }
 
   most_recent = true
 }
 
-resource "aws_instance" "artifactory" {
+resource "aws_instance" "crowd" {
   ami               = "ami-1853ac65"
-  instance_type     = "m5.large"
+  instance_type     = "t2.large"
   key_name          = "${var.aws_key_pair}"
   security_groups   = ["${var.ssh_sg}", "${var.http_sg}"]
   availability_zone = "us-east-1a"
@@ -34,9 +34,9 @@ resource "aws_instance" "artifactory" {
   }
 }
 
-resource "aws_volume_attachment" "artifactory_data" {
+resource "aws_volume_attachment" "crowd_data" {
   device_name  = "/dev/sdh"
-  volume_id    = "${data.aws_ebs_volume.artifactory_volume.volume_id}"
-  instance_id  = "${aws_instance.artifactory.id}"
+  volume_id    = "${data.aws_ebs_volume.crowd_volume.id}"
+  instance_id  = "${aws_instance.crowd.id}"
   skip_destroy = true
 }
