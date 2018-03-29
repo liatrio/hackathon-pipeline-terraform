@@ -11,11 +11,11 @@ data "template_file" "ansible_inventory" {
   template = "${file("${path.module}/inventory.tpl")}"
 
   vars {
-    jenkins_agent_1 = "${aws_instance.jenkins_agent.0.public_ip}"
-    jenkins_agent_2 = "${aws_instance.jenkins_agent.1.public_ip}"
-    jenkins_agent_3 = "${aws_instance.jenkins_agent.2.public_ip}"
-    jenkins_agent_4 = "${aws_instance.jenkins_agent.3.public_ip}"
-    jenkins_agent_5 = "${aws_instance.jenkins_agent.4.public_ip}"
+    jenkins_agent_1 = "${aws_eip.jenkins_agent_eip.0.public_ip}"
+    jenkins_agent_2 = "${aws_eip.jenkins_agent_eip.1.public_ip}"
+    jenkins_agent_3 = "${aws_eip.jenkins_agent_eip.2.public_ip}"
+    jenkins_agent_4 = "${aws_eip.jenkins_agent_eip.3.public_ip}"
+    jenkins_agent_5 = "${aws_eip.jenkins_agent_eip.4.public_ip}"
   }
 }
 
