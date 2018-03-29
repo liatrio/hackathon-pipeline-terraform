@@ -11,7 +11,7 @@ data "template_file" "ansible_inventory" {
   template = "${file("${path.module}/inventory.tpl")}"
 
   vars {
-    bitbucket_host = "${aws_eip.bitbucket_eip.public_ip}"
+    bitbucket_host = "${aws_eip.bitbucket.public_ip}"
   }
 }
 

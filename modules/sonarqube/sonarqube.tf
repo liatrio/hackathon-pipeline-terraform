@@ -11,7 +11,7 @@ data "template_file" "ansible_inventory" {
   template = "${file("${path.module}/inventory.tpl")}"
 
   vars {
-    sonarqube_host = "${aws_eip.sonarqube_eip.public_ip}"
+    sonarqube_host = "${aws_eip.sonarqube.public_ip}"
   }
 }
 

@@ -17,7 +17,7 @@ resource "aws_eip" "jenkins_agent_eip" {
 }
 
 resource "aws_eip_association" "jenkins_agents_eip" {
-  count = "${var.agent_count}"
+  count         = "${var.agent_count}"
   instance_id   = "${element(aws_instance.jenkins_agent.*.id, count.index)}"
   allocation_id = "${element(aws_eip.jenkins_agent_eip.*.id, count.index)}"
 }
