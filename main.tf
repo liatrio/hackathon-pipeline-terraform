@@ -30,6 +30,14 @@ variable "inventories_location" {
   default = "."
 }
 
+variable "maint_distribution_name" {
+  default = "dkvx1y0kcs511.cloudfront.net"
+}
+
+variable "maint_distribution_zone_id" {
+  default = "Z2FDTNDATAQYW2"
+}
+
 data "aws_route53_zone" "domain" {
   name = "${var.domain}"
 }
@@ -39,6 +47,7 @@ module "artifactory" {
   source        = "./modules/artifactory"
   aws_key_pair  = "${var.aws_key_pair}"
   pipeline_name = "${var.pipeline_name}"
+  http_sg       = "${aws_security_group.http_sg.name}"
   ssh_sg        = "${aws_security_group.ssh_sg.name}"
   tool_name     = "artifactory"
   zone_id       = "${data.aws_route53_zone.domain.zone_id}"
@@ -59,6 +68,7 @@ module "confluence" {
   source        = "./modules/confluence"
   aws_key_pair  = "${var.aws_key_pair}"
   pipeline_name = "${var.pipeline_name}"
+  http_sg       = "${aws_security_group.http_sg.name}"
   ssh_sg        = "${aws_security_group.ssh_sg.name}"
   tool_name     = "confluence"
   zone_id       = "${data.aws_route53_zone.domain.zone_id}"
@@ -92,6 +102,7 @@ module "jira" {
   source        = "./modules/jira"
   aws_key_pair  = "${var.aws_key_pair}"
   pipeline_name = "${var.pipeline_name}"
+  http_sg       = "${aws_security_group.http_sg.name}"
   ssh_sg        = "${aws_security_group.ssh_sg.name}"
   tool_name     = "jira"
   zone_id       = "${data.aws_route53_zone.domain.zone_id}"
@@ -109,12 +120,14 @@ module "sonarqube" {
 }
 
 module "crowd" {
-  source               = "./modules/crowd"
-  aws_key_pair         = "${var.aws_key_pair}"
-  http_sg              = "${aws_security_group.http_sg.name}"
-  inventories_location = "${var.inventories_location}"
-  pipeline_name        = "${var.pipeline_name}"
-  ssh_sg               = "${aws_security_group.ssh_sg.name}"
-  tool_name            = "crowd"
-  zone_id              = "${data.aws_route53_zone.domain.zone_id}"
+  source                     = "./modules/crowd"
+  aws_key_pair               = "${var.aws_key_pair}"
+  http_sg                    = "${aws_security_group.http_sg.name}"
+  inventories_location       = "${var.inventories_location}"
+  pipeline_name              = "${var.pipeline_name}"
+  ssh_sg                     = "${aws_security_group.ssh_sg.name}"
+  tool_name                  = "crowd"
+  zone_id                    = "${data.aws_route53_zone.domain.zone_id}"
+  maint_distribution_name    = "${var.maint_distribution_name}"
+  maint_distribution_zone_id = "${var.maint_distribution_zone_id}"
 }

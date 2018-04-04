@@ -23,12 +23,32 @@ resource "aws_eip_association" "crowd" {
   allocation_id = "${aws_eip.crowd.id}"
 }
 
-resource "aws_route53_record" "crowd" {
+resource "aws_route53_record" "crowd-primary" {
   zone_id = "${var.zone_id}"
   name    = "${var.tool_fqdn}"
   type    = "A"
-  ttl     = 300
+  ttl     = 60
   records = ["${aws_eip.crowd.public_ip}"]
+  set_identifier = "crowd-Primary"
+  health_check_id = "${aws_route53_health_check.crowd.id}"
+  failover_routing_policy {
+    type = "PRIMARY"
+  }
+}
+
+resource "aws_route53_record" "crowd-secondary" {
+  zone_id = "${var.zone_id}"
+  name    = "${var.tool_fqdn}"
+  type    = "A"
+  alias {
+    name                   = "${var.maint_distribution_name}"
+    zone_id                = "${var.maint_distribution_zone_id}"
+    evaluate_target_health = false
+  }
+  set_identifier = "crowd-Secondary"
+  failover_routing_policy {
+    type = "SECONDARY"
+  }
 }
 
 resource "aws_route53_health_check" "crowd" {
