@@ -37,7 +37,7 @@ resource "aws_route53_health_check" "jenkins_master" {
   type              = "HTTP"
   failure_threshold = "3"
   request_interval  = "30"
-
+  resource_path     = "/metrics/b-30BRnCgZw6HlF5CHjycNfrVexWf7-VGlaO911g8aEFxTXrwwn8qw75yIW6Zx4F/ping"
   tags = {
     Name = "jenkins_master_hc${var.pipeline_name}"
   }

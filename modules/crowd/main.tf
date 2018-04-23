@@ -6,6 +6,8 @@ variable "aws_key_pair" {}
 variable "tool_name" {}
 variable "ssh_sg" {}
 variable "http_sg" {}
+variable "maint_distribution_name" {}
+variable "maint_distribution_zone_id" {}
 
 data "aws_ebs_volume" "crowd_volume" {
   filter {
