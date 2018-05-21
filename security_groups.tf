@@ -44,6 +44,23 @@ resource "aws_security_group" "http_sg" {
   }
 }
 
+resource "aws_security_group" "https_sg" {
+  name        = "allow_https"
+  description = "All https traffic"
+
+  tags {
+    Project = "hackathon_pipeline"
+    Name    = "hackathon_sg_https"
+  }
+
+  ingress {
+    from_port   = 443
+    to_port     = 443
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+}
+
 resource "aws_security_group" "jenkins_sg" {
   name        = "allow_jenkins"
   description = "All jenkins traffic"

@@ -131,3 +131,17 @@ module "crowd" {
   maint_distribution_name    = "${var.maint_distribution_name}"
   maint_distribution_zone_id = "${var.maint_distribution_zone_id}"
 }
+
+module "docker_nodes" {
+  source               = "./modules/docker_nodes"
+  agent_count          = "5"
+  aws_key_pair         = "${var.aws_key_pair}"
+  inventories_location = "${var.inventories_location}"
+  pipeline_name        = "${var.pipeline_name}"
+  ssh_sg               = "${aws_security_group.ssh_sg.name}"
+  http_sg              = "${aws_security_group.http_sg.name}"
+  https_sg             = "${aws_security_group.https_sg.name}"
+  tool_name            = "docker_node"
+  zone_id              = "${data.aws_route53_zone.domain.zone_id}"
+}
+
