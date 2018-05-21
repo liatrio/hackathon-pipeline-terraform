@@ -72,7 +72,7 @@ pipeline {
               }
             }
           },
-          docker-nodes: {
+          deployments: {
 						dir('ansible-docker-nodes') {
 							git branch: 'master', url: 'https://github.com/liatrio/ansible-docker-nodes.git'
 						}
