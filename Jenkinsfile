@@ -35,7 +35,7 @@ pipeline {
             }
             sh "cp $JENKINS_HOME/hackathon_inventories/jenkins_master.inventory ansible-jenkins/inventory"
             sh "ansible-galaxy install liatrio.mount_persist_data"
-            sh "ansible-galaxy install geerlingguy.jenkins"
+            sh "ansible-galaxy install -f geerlingguy.jenkins"
             sh "ansible-galaxy install geerlingguy.git"
             sh "ansible-galaxy install geerlingguy.nginx"
             withCredentials([sshUserPrivateKey(credentialsId: 'hackathon-key', keyFileVariable: 'keyFileVariable')]) {
