@@ -74,6 +74,19 @@ module "confluence" {
   zone_id       = "${data.aws_route53_zone.domain.zone_id}"
 }
 
+module "crowd" {
+  source                     = "./modules/crowd"
+  aws_key_pair               = "${var.aws_key_pair}"
+  http_sg                    = "${aws_security_group.http_sg.name}"
+  inventories_location       = "${var.inventories_location}"
+  pipeline_name              = "${var.pipeline_name}"
+  ssh_sg                     = "${aws_security_group.ssh_sg.name}"
+  tool_name                  = "crowd"
+  zone_id                    = "${data.aws_route53_zone.domain.zone_id}"
+  maint_distribution_name    = "${var.maint_distribution_name}"
+  maint_distribution_zone_id = "${var.maint_distribution_zone_id}"
+}
+
 module "jenkins_agents" {
   source               = "./modules/jenkins_agents"
   agent_count          = "5"
@@ -117,19 +130,6 @@ module "sonarqube" {
   ssh_sg               = "${aws_security_group.ssh_sg.name}"
   tool_name            = "sonarqube"
   zone_id              = "${data.aws_route53_zone.domain.zone_id}"
-}
-
-module "crowd" {
-  source                     = "./modules/crowd"
-  aws_key_pair               = "${var.aws_key_pair}"
-  http_sg                    = "${aws_security_group.http_sg.name}"
-  inventories_location       = "${var.inventories_location}"
-  pipeline_name              = "${var.pipeline_name}"
-  ssh_sg                     = "${aws_security_group.ssh_sg.name}"
-  tool_name                  = "crowd"
-  zone_id                    = "${data.aws_route53_zone.domain.zone_id}"
-  maint_distribution_name    = "${var.maint_distribution_name}"
-  maint_distribution_zone_id = "${var.maint_distribution_zone_id}"
 }
 
 module "docker_nodes" {
