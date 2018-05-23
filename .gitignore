@@ -7,3 +7,6 @@
 
 # Inventory files
 *.inventory
+#
+# Swap files
+*.swp
