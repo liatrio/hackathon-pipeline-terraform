@@ -3,7 +3,7 @@
 # 
 
 resource "aws_security_group" "ssh_sg" {
-  name        = "allow_ssh"
+  name        = "toolchain_allow_ssh"
   description = "All SSH traffic"
 
   tags {
@@ -28,7 +28,7 @@ resource "aws_security_group" "ssh_sg" {
 }
 
 resource "aws_security_group" "http_sg" {
-  name        = "allow_http"
+  name        = "toolchain_allow_http"
   description = "All http traffic"
 
   tags {
@@ -44,8 +44,25 @@ resource "aws_security_group" "http_sg" {
   }
 }
 
+resource "aws_security_group" "https_sg" {
+  name        = "toolchain_allow_https"
+  description = "All https traffic"
+
+  tags {
+    Project = "hackathon_pipeline"
+    Name    = "hackathon_sg_https"
+  }
+
+  ingress {
+    from_port   = 443
+    to_port     = 443
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+}
+
 resource "aws_security_group" "jenkins_sg" {
-  name        = "allow_jenkins"
+  name        = "toolchain_allow_jenkins"
   description = "All jenkins traffic"
 
   tags {
@@ -69,7 +86,7 @@ resource "aws_security_group" "jenkins_sg" {
 }
 
 resource "aws_security_group" "jenkins_agent" {
-  name        = "jenkins_agent"
+  name        = "toolchain_jenkins_agent"
   description = "Jenkins agent port"
 
   tags {

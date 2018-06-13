@@ -72,30 +72,39 @@ pipeline {
               }
             }
           },
-          //artifactory: {
-          //  dir('ansible-artifactory'){
-          //    git branch: 'master', url: 'https://github.com/liatrio/ansible-artifactory.git'
-          //  }
-          //  withCredentials([sshUserPrivateKey(credentialsId: 'hackathon-key', keyFileVariable: 'keyFileVariable')]) {
-          //    sh "echo hello"
-          //  }
-          //},
-          //jira: {
-          //  dir('ansible-jira') {
-          //    git branch: 'master', url: 'https://github.com/liatrio/ansible-jira.git'
-          //  }
-          //  withCredentials([sshUserPrivateKey(credentialsId: 'hackathon-key', keyFileVariable: 'keyFileVariable')]) {
-          //    sh "echo hello"
-          //  }
-          //},
-          //confluence: {
-          //  dir('ansible-confluence') {
-          //    git branch: 'master', url: 'https://github.com/liatrio/ansible-confluence.git'
-          //  }
-          //  withCredentials([sshUserPrivateKey(credentialsId: 'hackathon-key', keyFileVariable: 'keyFileVariable')]) {
-          //    sh "echo hello"
-          //  }
-          //},
+          deployments: {
+						dir('ansible-docker-nodes') {
+							git branch: 'master', url: 'https://github.com/liatrio/ansible-docker-nodes.git'
+						}
+						sh "cp $JENKINS_HOME/hackathon_inventories/docker_nodes.inventory ansible-docker-nodes/inventory"
+							withCredentials([sshUserPrivateKey(credentialsId: 'hackathon-key', keyFileVariable: 'keyFileVariable')]) {
+								sh "ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook --private-key $keyFileVariable -i  ansible-docker-nodes/inventory ./ansible-docker-nodes/docker_nodes.yml"
+							}
+          },
+          artifactory: {
+            dir('ansible-artifactory'){
+              git branch: 'master', url: 'https://github.com/liatrio/ansible-artifactory.git'
+            }
+            withCredentials([sshUserPrivateKey(credentialsId: 'hackathon-key', keyFileVariable: 'keyFileVariable')]) {
+              sh "echo hello"
+            }
+          },
+          jira: {
+            dir('ansible-jira') {
+              git branch: 'master', url: 'https://github.com/liatrio/ansible-jira.git'
+            }
+            withCredentials([sshUserPrivateKey(credentialsId: 'hackathon-key', keyFileVariable: 'keyFileVariable')]) {
+              sh "echo hello"
+            }
+          },
+          confluence: {
+            dir('ansible-confluence') {
+              git branch: 'master', url: 'https://github.com/liatrio/ansible-confluence.git'
+            }
+            withCredentials([sshUserPrivateKey(credentialsId: 'hackathon-key', keyFileVariable: 'keyFileVariable')]) {
+              sh "echo hello"
+            }
+          },
         )
       }
     }
